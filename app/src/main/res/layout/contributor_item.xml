@@ -49,7 +49,7 @@
                 android:text="@{contributor.login}"
                 app:layout_constraintStart_toEndOf="@+id/img_avatar"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Yigit Boyar" />
+                tools:text="@string/txt_name_contributor" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

@@ -25,11 +25,12 @@ public class ContributorAdapter
     @Override
     protected ContributorItemBinding createBinding(ViewGroup parent) {
 
+        // Binding data
         ContributorItemBinding binding = DataBindingUtil
                 .inflate(LayoutInflater.from(parent.getContext()),
-                        R.layout.contributor_item, parent, false,
-                        dataBindingComponent);
+                        R.layout.contributor_item, parent, false, dataBindingComponent);
 
+        // Set onClick Contributor item
         binding.getRoot().setOnClickListener(v -> {
             Contributor contributor = binding.getContributor();
             if (contributor != null && callback != null) {

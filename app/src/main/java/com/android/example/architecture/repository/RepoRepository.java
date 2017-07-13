@@ -48,27 +48,40 @@ public class RepoRepository {
         this.appExecutors = appExecutors;
     }
 
+    /**
+     * Load list Repositories.
+     *
+     * @param owner {@link String}
+     * @return {@link List<Repo>}
+     */
     public LiveData<Resource<List<Repo>>> loadRepos(String owner) {
         return new NetworkBoundResource<List<Repo>, List<Repo>>(appExecutors) {
             @Override
             protected void saveCallResult(@NonNull List<Repo> item) {
+                Timber.d("save list Repos");
                 repoDao.insertRepos(item);
             }
 
             @Override
             protected boolean shouldFetch(@Nullable List<Repo> data) {
-                return data == null || data.isEmpty() || repoListRateLimit.shouldFetch(owner);
+                final boolean result = data == null || data.isEmpty()
+                        || repoListRateLimit.shouldFetch(owner);
+
+                Timber.d("should fetch Repos data : " + result);
+                return result;
             }
 
             @NonNull
             @Override
             protected LiveData<List<Repo>> loadFromDb() {
+                Timber.d("load list repos from DB");
                 return repoDao.loadRepositories(owner);
             }
 
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Repo>>> createCall() {
+                Timber.d("load list Repos from api");
                 return githubService.getRepos(owner);
             }
 
@@ -83,23 +96,29 @@ public class RepoRepository {
         return new NetworkBoundResource<Repo, Repo>(appExecutors) {
             @Override
             protected void saveCallResult(@NonNull Repo item) {
+                Timber.d("save Repo item");
                 repoDao.insert(item);
             }
 
             @Override
             protected boolean shouldFetch(@Nullable Repo data) {
-                return data == null;
+                final boolean result = data == null;
+
+                Timber.d("should fetch Repo data : " + result);
+                return result;
             }
 
             @NonNull
             @Override
             protected LiveData<Repo> loadFromDb() {
+                Timber.d("load Repo from local");
                 return repoDao.load(owner, name);
             }
 
             @NonNull
             @Override
             protected LiveData<ApiResponse<Repo>> createCall() {
+                Timber.d("load Repo data from api");
                 return githubService.getRepo(owner, name);
             }
         }.asLiveData();
@@ -113,6 +132,7 @@ public class RepoRepository {
                     contributor.setRepoName(name);
                     contributor.setRepoOwner(owner);
                 }
+
                 db.beginTransaction();
                 try {
                     repoDao.createRepoIfNotExists(new Repo(Repo.UNKNOWN_ID,
@@ -123,24 +143,30 @@ public class RepoRepository {
                 } finally {
                     db.endTransaction();
                 }
+
                 Timber.d("received saved contributors to db");
             }
 
             @Override
             protected boolean shouldFetch(@Nullable List<Contributor> data) {
                 Timber.d("received contributor list from db: %s", data);
-                return data == null || data.isEmpty();
+                final boolean result = data == null || data.isEmpty();
+
+                Timber.d("should fetch Repo data : " + result);
+                return result;
             }
 
             @NonNull
             @Override
             protected LiveData<List<Contributor>> loadFromDb() {
+                Timber.d("load contributors from local");
                 return repoDao.loadContributors(owner, name);
             }
 
             @NonNull
             @Override
             protected LiveData<ApiResponse<List<Contributor>>> createCall() {
+                Timber.d("load contributors from server");
                 return githubService.getContributors(owner, name);
             }
         }.asLiveData();

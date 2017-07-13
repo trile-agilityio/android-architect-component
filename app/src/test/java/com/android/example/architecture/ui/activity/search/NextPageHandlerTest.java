@@ -3,7 +3,7 @@ package com.android.example.architecture.ui.activity.search;
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.android.example.architecture.service.repository.RepoRepository;
+import com.android.example.architecture.repository.RepoRepository;
 import com.android.example.architecture.util.common.Resource;
 
 import org.junit.Before;

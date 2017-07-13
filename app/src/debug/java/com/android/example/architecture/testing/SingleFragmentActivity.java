@@ -13,6 +13,7 @@ import com.android.example.architecture.R;
  * Used for testing fragments inside a fake activity.
  */
 public class SingleFragmentActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

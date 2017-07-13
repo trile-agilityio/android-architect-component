@@ -30,18 +30,10 @@ public class UserFragment extends LifecycleFragment implements Injectable {
     @Inject
     NavigationController navigationController;
 
-    DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+    public DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     private UserViewModel userViewModel;
     private AutoClearedValue<UserFragmentBinding> binding;
     private AutoClearedValue<RepoListAdapter> adapter;
-
-    public static UserFragment create(String login) {
-        UserFragment userFragment = new UserFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(LOGIN_KEY, login);
-        userFragment.setArguments(bundle);
-        return userFragment;
-    }
 
     @Nullable
     @Override
@@ -59,15 +51,19 @@ public class UserFragment extends LifecycleFragment implements Injectable {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // View model
         userViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserViewModel.class);
         userViewModel.setLogin(getArguments().getString(LOGIN_KEY));
+
+        // User data observe
         userViewModel.getUser().observe(this, userResource -> {
+            // update ui
             binding.get().setUser(userResource == null ? null : userResource.data);
             binding.get().setUserResource(userResource);
-            // this is only necessary because espresso cannot read data binding callbacks.
             binding.get().executePendingBindings();
         });
 
+        // Repositories adapter
         RepoListAdapter rvAdapter = new RepoListAdapter(dataBindingComponent, false,
                 repo->navigationController.navigateToRepo(repo.owner.login, repo.name));
         binding.get().repoList.setAdapter(rvAdapter);
@@ -76,15 +72,30 @@ public class UserFragment extends LifecycleFragment implements Injectable {
         initRepoList();
     }
 
+    /**
+     * Initialize list Repositories
+     */
     private void initRepoList() {
         userViewModel.getRepositories().observe(this, repos -> {
-            // no null checks for adapter.get() since LiveData guarantees that we'll not receive
-            // the event if fragment is now show.
             if (repos == null) {
                 adapter.get().replace(null);
             } else {
                 adapter.get().replace(repos.data);
             }
         });
+    }
+
+    /**
+     * Create UserFragment.
+     *
+     * @param login {@link String}
+     * @return UserFragment
+     */
+    public static UserFragment create(String login) {
+        UserFragment userFragment = new UserFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(LOGIN_KEY, login);
+        userFragment.setArguments(bundle);
+        return userFragment;
     }
 }

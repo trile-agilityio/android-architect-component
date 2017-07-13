@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.example.architecture.db.entity.Repo;
-import com.android.example.architecture.service.repository.RepoRepository;
+import com.android.example.architecture.repository.RepoRepository;
 import com.android.example.architecture.util.common.AbsentLiveData;
 import com.android.example.architecture.util.common.Objects;
 import com.android.example.architecture.util.common.Resource;

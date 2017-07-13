@@ -37,11 +37,9 @@ public class SearchFragment extends LifecycleFragment implements Injectable {
     @Inject
     NavigationController navigationController;
 
-    DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
-
-    AutoClearedValue<SearchFragmentBinding> binding;
-
-    AutoClearedValue<RepoListAdapter> adapter;
+    private DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+    private AutoClearedValue<SearchFragmentBinding> binding;
+    private AutoClearedValue<RepoListAdapter> adapter;
 
     private SearchViewModel searchViewModel;
 

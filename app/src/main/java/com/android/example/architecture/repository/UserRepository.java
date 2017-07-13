@@ -1,4 +1,4 @@
-package com.android.example.architecture.service.repository;
+package com.android.example.architecture.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;

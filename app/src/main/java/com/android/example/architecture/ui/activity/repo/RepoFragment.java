@@ -46,8 +46,8 @@ public class RepoFragment extends Fragment implements LifecycleRegistryOwner, In
     NavigationController navigationController;
 
     public DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
-    AutoClearedValue<RepoFragmentBinding> binding;
-    AutoClearedValue<ContributorAdapter> adapter;
+    private AutoClearedValue<RepoFragmentBinding> binding;
+    private AutoClearedValue<ContributorAdapter> adapter;
 
     @Override
     public LifecycleRegistry getLifecycle() {

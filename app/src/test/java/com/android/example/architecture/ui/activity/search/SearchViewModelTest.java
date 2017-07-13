@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 
 import com.android.example.architecture.db.entity.Repo;
-import com.android.example.architecture.service.repository.RepoRepository;
+import com.android.example.architecture.repository.RepoRepository;
 import com.android.example.architecture.util.common.Resource;
 
 import org.junit.Before;

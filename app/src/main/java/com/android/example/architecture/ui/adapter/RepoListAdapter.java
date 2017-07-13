@@ -28,11 +28,16 @@ public class RepoListAdapter extends DataBoundListAdapter<Repo, RepoItemBinding>
 
     @Override
     protected RepoItemBinding createBinding(ViewGroup parent) {
+
+        // data binding
         RepoItemBinding binding = DataBindingUtil
-                .inflate(LayoutInflater.from(parent.getContext()), R.layout.repo_item,
-                        parent, false, dataBindingComponent);
+                .inflate(LayoutInflater.from(parent.getContext()),
+                        R.layout.repo_item, parent, false, dataBindingComponent);
+
+        // show full name
         binding.setShowFullName(showFullName);
 
+        // on item Repo click
         binding.getRoot().setOnClickListener(v -> {
             Repo repo = binding.getRepo();
             if (repo != null && repoClickCallback != null) {
